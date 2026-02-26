@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cargo Ship Loader — Demo</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    /* ── Demo-page extras ───────────────────────────────────── */
+
+    .back-nav {
+      padding: 1.25rem 0 0;
+    }
+    .back-nav a {
+      font-size: 0.875rem;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.15s;
+    }
+    .back-nav a:hover { color: var(--blue); text-decoration: none; }
+
+    .demo-header {
+      padding: 3rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .demo-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.6rem;
+    }
+    .demo-header p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 620px;
+    }
+    .demo-header .tags { margin-top: 1rem; }
+
+    /* ── Sections ────────────────────────────────────────────── */
+    .demo-section {
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .demo-section:last-child { border-bottom: none; }
+
+    .demo-section h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .demo-section .section-desc {
+      color: var(--muted);
+      font-size: 0.925rem;
+      max-width: 640px;
+      margin-bottom: 1.75rem;
+      line-height: 1.7;
+    }
+
+    /* ── Hull image ──────────────────────────────────────────── */
+    .hull-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0f172a;
+      max-width: 860px;
+    }
+    .hull-wrap img {
+      width: 100%;
+      display: block;
+    }
+    .hull-wrap figcaption {
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+      color: var(--subtle);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── GIF frames ──────────────────────────────────────────── */
+    .gif-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+    .gif-grid.two-col {
+      grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+    }
+    .gif-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .gif-card img {
+      width: 100%;
+      display: block;
+    }
+    .gif-card .gif-caption {
+      padding: 0.85rem 1.1rem;
+      border-top: 1px solid var(--border);
+    }
+    .gif-card .gif-caption strong {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 650;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    .gif-card .gif-caption p {
+      font-size: 0.825rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ── Benchmark table ─────────────────────────────────────── */
+    .bench-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .bench-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+    .bench-table th,
+    .bench-table td {
+      padding: 0.65rem 1rem;
+      text-align: right;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .bench-table th {
+      background: var(--surface-2);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.775rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .bench-table td:first-child,
+    .bench-table th:first-child {
+      text-align: left;
+      font-weight: 500;
+    }
+    .bench-table tbody tr:last-child td { border-bottom: none; }
+    .bench-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+    .score-cell { font-variant-numeric: tabular-nums; color: var(--text); }
+    .score-high { color: var(--green); }
+    .score-mean {
+      font-weight: 650;
+      color: var(--blue);
+    }
+    .time-cell { color: var(--subtle); }
+
+    /* ── Solvers grid ────────────────────────────────────────── */
+    .solver-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .solver-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.4rem;
+    }
+    .solver-card .solver-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.15rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .solver-card .solver-type {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .type-heuristic { background: rgba(251,146,60,0.12); color: var(--orange); border: 1px solid rgba(251,146,60,0.3); }
+    .type-ml        { background: rgba(167,139,250,0.12); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+    .solver-card p {
+      font-size: 0.825rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── Footer actions ──────────────────────────────────────── */
+    .demo-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      padding: 2.5rem 0 3rem;
+    }
+
+    @media (max-width: 700px) {
+      .demo-header h1 { font-size: 1.5rem; }
+      .gif-grid.two-col { grid-template-columns: 1fr; }
+      .solver-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+
+    <nav class="back-nav">
+      <a href="../">&#8592; Back to portfolio</a>
+    </nav>
+
+    <!-- ── Header ───────────────────────────────────────── -->
+    <div class="demo-header">
+      <div class="category-label category-solver" style="margin-bottom:0.75rem;">Algorithms &amp; Simulation</div>
+      <h1>Cargo Ship Loader</h1>
+      <p>
+        A physics-grounded optimisation engine for packing 20&nbsp;ft and 40&nbsp;ft ISO
+        containers into a Panamax-class hull. Five solver strategies &mdash; from a greedy
+        baseline to Bayesian-optimised weights and a neural position ranker &mdash; all
+        competing on the same balance metric.
+      </p>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">NumPy</span>
+        <span class="tag">Matplotlib</span>
+        <span class="tag">Beam Search</span>
+        <span class="tag">Simulated Annealing</span>
+        <span class="tag">Bayesian Opt</span>
+        <span class="tag">scikit-learn</span>
+        <span class="tag">optuna</span>
+      </div>
+    </div>
+
+    <!-- ── Hull geometry ─────────────────────────────────── -->
+    <section class="demo-section">
+      <h2>Hull Geometry</h2>
+      <p class="section-desc">
+        The ship is modelled as a 36&times;13&times;9 voxel grid. The hull widens tier by
+        tier from a 7-column keel up to a 13-column beam, matching real Panamax geometry.
+        Hull cells (shown transparent) are never valid placements; the solver only places
+        containers into the coloured valid cells.
+      </p>
+      <figure class="hull-wrap">
+        <img src="hull.png" alt="3-D voxel render of an empty Panamax cargo hold. Tiers are coloured from dark blue at the keel to light yellow at the deck, and the hull narrows toward the bottom." />
+        <figcaption>Panamax hull &mdash; 36 bays &times; 13 columns &times; 9 tiers &mdash; colour-coded by tier (keel &rarr; deck).</figcaption>
+      </figure>
+    </section>
+
+    <!-- ── Loading animation ─────────────────────────────── -->
+    <section class="demo-section">
+      <h2>Loading Sequence</h2>
+      <p class="section-desc">
+        Containers are placed one at a time, heaviest first. Each placement is scored
+        on four criteria: metacentric stability (centre-of-gravity height), fore&ndash;aft
+        balance, port&ndash;starboard balance, and diagonal balance. The live bars on the
+        right turn green when the ship is within 10&nbsp;% of perfect balance on each axis.
+      </p>
+      <div class="gif-grid">
+        <div class="gif-card">
+          <img src="loading-greedy.gif" alt="Animation of 28 ISO shipping containers being loaded one by one into a Panamax hull. Containers are colour-coded from blue (light) to red (heavy). Balance bars on the right show near-perfect port-starboard and fore-aft equilibrium." />
+          <div class="gif-caption">
+            <strong>Greedy solver &mdash; 28 containers (20&times;20&nbsp;ft + 8&times;40&nbsp;ft)</strong>
+            <p>
+              Heaviest-first ordering. Each container is placed at the position that
+              maximises a weighted balance score. Final ratios: PS&nbsp;0.998 &nbsp;/&nbsp; FA&nbsp;0.992.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Solver comparison ─────────────────────────────── -->
+    <section class="demo-section">
+      <h2>Solver Comparison</h2>
+      <p class="section-desc">
+        The same 28-container manifest loaded by two solvers simultaneously. Beam Search
+        (K&nbsp;=&nbsp;5) maintains five candidate loading sequences in parallel at each
+        step and commits to the five best-scoring placements, trading speed for a broader
+        search of the solution space.
+      </p>
+      <div class="gif-grid">
+        <div class="gif-card">
+          <img src="comparison.gif" alt="Side-by-side animation comparing the greedy solver (left) and beam search solver with K equals 5 (right) loading the same 28 containers. Both achieve near-identical balance bar readings." />
+          <div class="gif-caption">
+            <strong>Greedy vs Beam Search (K&nbsp;=&nbsp;5) &mdash; same manifest, same seed</strong>
+            <p>
+              On a well-structured manifest, both solvers converge to near-identical balance.
+              Beam Search yields larger improvements on adversarial orderings or denser loads
+              where greedy is more likely to make locally optimal but globally suboptimal choices.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Benchmark ─────────────────────────────────────── -->
+    <section class="demo-section">
+      <h2>Balance Benchmark</h2>
+      <p class="section-desc">
+        Port&ndash;starboard and fore&ndash;aft balance ratios (min&nbsp;/&nbsp;max weight on each axis;
+        1.000&nbsp;=&nbsp;perfect) across five random seeds. Full manifest: 60&times;20&nbsp;ft
+        + 25&times;40&nbsp;ft containers. Runtime is for all five seeds combined.
+      </p>
+      <div class="bench-wrap">
+        <table class="bench-table">
+          <thead>
+            <tr>
+              <th>Solver</th>
+              <th>seed&nbsp;42</th>
+              <th>seed&nbsp;99</th>
+              <th>seed&nbsp;7</th>
+              <th>seed&nbsp;1234</th>
+              <th>seed&nbsp;5678</th>
+              <th>Mean</th>
+              <th>Time&nbsp;(5&nbsp;seeds)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Greedy</td>
+              <td class="score-cell score-high">0.997&nbsp;/&nbsp;0.996</td>
+              <td class="score-cell score-high">0.999&nbsp;/&nbsp;0.996</td>
+              <td class="score-cell score-high">0.997&nbsp;/&nbsp;0.995</td>
+              <td class="score-cell score-high">0.996&nbsp;/&nbsp;0.997</td>
+              <td class="score-cell score-high">0.997&nbsp;/&nbsp;0.998</td>
+              <td class="score-mean">0.998&nbsp;/&nbsp;0.996</td>
+              <td class="time-cell">6.6&nbsp;s</td>
+            </tr>
+            <tr>
+              <td>Beam Search&nbsp;K&nbsp;=&nbsp;5</td>
+              <td class="score-cell score-high">0.997&nbsp;/&nbsp;0.996</td>
+              <td class="score-cell score-high">0.997&nbsp;/&nbsp;0.999</td>
+              <td class="score-cell score-high">0.997&nbsp;/&nbsp;0.995</td>
+              <td class="score-cell score-high">0.994&nbsp;/&nbsp;1.000</td>
+              <td class="score-cell score-high">0.998&nbsp;/&nbsp;0.998</td>
+              <td class="score-mean">0.996&nbsp;/&nbsp;0.998</td>
+              <td class="time-cell">33&nbsp;s</td>
+            </tr>
+            <tr>
+              <td>Simulated Annealing</td>
+              <td class="score-cell score-high">0.997&nbsp;/&nbsp;0.996</td>
+              <td class="score-cell score-high">0.997&nbsp;/&nbsp;1.000</td>
+              <td class="score-cell score-high">0.995&nbsp;/&nbsp;0.998</td>
+              <td class="score-cell score-high">0.996&nbsp;/&nbsp;0.997</td>
+              <td class="score-cell score-high">0.997&nbsp;/&nbsp;0.998</td>
+              <td class="score-mean">0.997&nbsp;/&nbsp;0.998</td>
+              <td class="time-cell">171&nbsp;s</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:0.75rem; font-size:0.8rem; color:var(--subtle);">
+        PS&nbsp;/&nbsp;FA = port&ndash;starboard ratio / fore&ndash;aft ratio. All three solvers
+        achieve &gt;&nbsp;99.5&nbsp;% mean balance. The greedy solver reaches this in a
+        fraction of the time because the hand-tuned scoring function already captures the
+        key physics. Beam Search and SA add the most value on harder, adversarial manifests.
+      </p>
+    </section>
+
+    <!-- ── Solvers ────────────────────────────────────────── -->
+    <section class="demo-section">
+      <h2>The Five Solvers</h2>
+      <p class="section-desc">
+        All solvers share the same <code>BaseSolver</code> interface and report a unified
+        <code>final_score()</code> metric, making them drop-in replacements for one another.
+      </p>
+      <div class="solver-grid">
+        <div class="solver-card">
+          <div class="solver-name">
+            Greedy
+            <span class="solver-type type-heuristic">Heuristic</span>
+          </div>
+          <p>
+            Single-pass, heaviest-first. Scores every valid position in O(1) using
+            running sums for five balance terms (stability height, trim, list, diagonal, stacking bonus).
+            Fastest solver; already achieves &gt;&nbsp;99.5&nbsp;% balance.
+          </p>
+        </div>
+        <div class="solver-card">
+          <div class="solver-name">
+            Beam Search
+            <span class="solver-type type-heuristic">Heuristic</span>
+          </div>
+          <p>
+            Maintains the top-K partial solutions at each placement step. K&nbsp;=&nbsp;1
+            is identical to greedy; K&nbsp;=&nbsp;5&ndash;10 broadens the search without
+            exponential blowup. Deterministic and interpretable.
+          </p>
+        </div>
+        <div class="solver-card">
+          <div class="solver-name">
+            Simulated Annealing
+            <span class="solver-type type-heuristic">Heuristic</span>
+          </div>
+          <p>
+            Warm-starts from the greedy solution and iteratively relocates &ldquo;top&rdquo;
+            containers (nothing stacked above). Accepts worse moves early on to escape local
+            optima; cools geometrically to commit to the best-seen state.
+          </p>
+        </div>
+        <div class="solver-card">
+          <div class="solver-name">
+            Bayesian Opt
+            <span class="solver-type type-ml">ML</span>
+          </div>
+          <p>
+            Treats the five scoring weights as hyperparameters and uses a Gaussian-Process
+            surrogate (optuna TPE) to find the combination that maximises balance quality.
+            Each GP trial is a full greedy run (&lt;&nbsp;1&nbsp;s), so 50 trials take under
+            a minute.
+          </p>
+        </div>
+        <div class="solver-card">
+          <div class="solver-name">
+            Neural Ranker
+            <span class="solver-type type-ml">ML</span>
+          </div>
+          <p>
+            Replaces the hand-crafted scoring function with a two-layer MLP (128&times;128
+            hidden units). Trained via behavioural cloning from Beam Search: for each
+            placement decision, it learns which of the valid positions the best beam would
+            have chosen.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Links ──────────────────────────────────────────── -->
+    <div class="demo-actions">
+      <a class="btn btn-primary" href="https://github.com/kjhooper/cargo_ship_loader" target="_blank" rel="noopener">View on GitHub</a>
+      <a class="btn btn-secondary" href="../">Back to Portfolio</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Katrina Hooper</p>
+    </div>
+  </footer>
+
+</body>
+</html>
