@@ -3,37 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Katrina Hooper</title>
+  <title>Katrina Hooper — Data &amp; ML Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <header>
-    <div class="container">
-      <div class="header-inner">
-        <div>
-          <h1>Katrina Hooper</h1>
-          <p class="tagline">Data &amp; ML Engineer &mdash; Python, shipping logistics, transit analytics</p>
-        </div>
-        <nav class="social-links">
-          <a href="https://github.com/kjhooper" target="_blank" rel="noopener">GitHub</a>
-          <a href="https://linkedin.com/in/katrinahooper" target="_blank" rel="noopener">LinkedIn</a>
-        </nav>
-      </div>
+  <!-- ── Hero ──────────────────────────────────────────────── -->
+  <header class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <p class="hero-eyebrow">Data &amp; ML Engineering</p>
+      <h1 class="hero-name">Katrina Hooper</h1>
+      <p class="hero-desc">
+        Building end-to-end data systems for shipping logistics and transit &mdash;
+        live risk dashboards, optimisation engines, and open-source ingestion tools.
+      </p>
+      <nav class="social-links">
+        <a href="https://github.com/kjhooper" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/katrinahooper" target="_blank" rel="noopener">LinkedIn</a>
+      </nav>
     </div>
   </header>
 
+  <!-- ── Projects ──────────────────────────────────────────── -->
   <main class="container">
 
-    <!-- ── Predictive Models ───────────────────────────── -->
+    <!-- 01 · Predictive Models -->
     <section class="category">
-      <div class="category-label category-forecast">Predictive Models</div>
-      <p class="category-desc">
-        End-to-end ML pipelines that ingest live data, build features, and produce calibrated risk scores or forecasts.
-      </p>
+      <div class="category-top">
+        <span class="category-num">01</span>
+        <div>
+          <span class="category-label category-forecast">Predictive Models</span>
+          <p class="category-desc">
+            End-to-end ML pipelines that ingest live data, build features,
+            and produce calibrated risk scores and forecasts.
+          </p>
+        </div>
+      </div>
       <div class="project-grid">
 
-        <article class="card">
+        <article class="card card-forecast">
           <div class="card-header">
             <h3>Port Disruption Risk Predictor</h3>
             <span class="status-badge status-live">Live</span>
@@ -60,15 +72,21 @@
       </div>
     </section>
 
-    <!-- ── Algorithms & Simulation ────────────────────── -->
+    <!-- 02 · Algorithms & Simulation -->
     <section class="category">
-      <div class="category-label category-solver">Algorithms &amp; Simulation</div>
-      <p class="category-desc">
-        Optimisation algorithms and physics-grounded simulations with interactive visualisations.
-      </p>
+      <div class="category-top">
+        <span class="category-num">02</span>
+        <div>
+          <span class="category-label category-solver">Algorithms &amp; Simulation</span>
+          <p class="category-desc">
+            Optimisation algorithms and physics-grounded simulations
+            with interactive visualisations.
+          </p>
+        </div>
+      </div>
       <div class="project-grid">
 
-        <article class="card">
+        <article class="card card-solver">
           <div class="card-header">
             <h3>Cargo Ship Loader</h3>
             <span class="status-badge status-live">Live</span>
@@ -76,8 +94,8 @@
           <p class="card-description">
             Five-solver optimisation engine for loading 20&nbsp;ft and 40&nbsp;ft ISO containers
             into a Panamax-class hull. Greedy baseline, beam search, simulated annealing,
-            Bayesian-optimised weights, and a neural position ranker &mdash; all compared on
-            port/starboard and fore/aft balance. Includes animated loading visualisations.
+            Bayesian-optimised weights, and a neural position ranker &mdash; all compared
+            on port/starboard and fore/aft balance.
           </p>
           <div class="tags">
             <span class="tag">Python</span>
@@ -89,7 +107,7 @@
             <span class="tag">scikit-learn</span>
           </div>
           <div class="card-actions">
-            <a class="btn btn-primary" href="cargo-ship-loader/">Live Demo</a>
+            <a class="btn btn-primary" href="cargo-ship-loader/">See Demo</a>
             <a class="btn btn-secondary" href="https://github.com/kjhooper/cargo_ship_loader" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
@@ -97,18 +115,24 @@
       </div>
     </section>
 
-    <!-- ── Libraries & Tools ──────────────────────────── -->
+    <!-- 03 · Libraries & Tools -->
     <section class="category">
-      <div class="category-label category-library">Libraries &amp; Tools</div>
-      <p class="category-desc">
-        Reusable open-source Python packages built for production data pipelines.
-      </p>
+      <div class="category-top">
+        <span class="category-num">03</span>
+        <div>
+          <span class="category-label category-library">Quay Tools</span>
+          <p class="category-desc">
+            An open-source Python toolkit for urban data pipelines &mdash; reusable,
+            production-ready packages that plug straight into any analytics or ML workflow.
+          </p>
+        </div>
+      </div>
       <div class="project-grid">
 
-        <article class="card">
+        <article class="card card-library">
           <div class="card-header">
             <h3>Toronto OD Data Ingestor</h3>
-            <span class="status-badge status-library">Package</span>
+            <span class="status-badge status-package">Package</span>
           </div>
           <p class="card-description">
             Reusable Python library for ingesting any Toronto Open Data (CKAN) package into
@@ -134,8 +158,12 @@
   </main>
 
   <footer>
-    <div class="container">
+    <div class="container footer-inner">
       <p>&copy; 2026 Katrina Hooper</p>
+      <nav class="footer-links">
+        <a href="https://github.com/kjhooper" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/katrinahooper" target="_blank" rel="noopener">LinkedIn</a>
+      </nav>
     </div>
   </footer>
 
